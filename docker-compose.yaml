@@ -1,0 +1,59 @@
+services: # aqui começam os containers que formam a aplicação
+  php: # container que roda o PHP e o Apache, é o "app" da aplicação
+    image: php:8.3-apache # imagem pronta do Docker Hub, já vem com PHP 8.3 e Apache configurados juntos
+    container_name: php # dá um nome fixo pro container, em vez do nome aleatório que o Docker geraria
+    ports:
+      - "8080:80" # quem acessa localhost:8080 no navegador cai na porta 80 do Apache aqui dentro
+    volumes:
+      - ./src:/var/www/html # a pasta src do projeto vira a raiz do site dentro do container
+    depends_on:
+      - mysql # espera o mysql subir primeiro, já que o php depende dele pra funcionar
+    command: > # troca o comando padrão da imagem por este aqui, executado ao iniciar o container
+      bash -c "docker-php-ext-install mysqli pdo pdo_mysql &&
+               apache2-foreground"
+    # instala as extensões que faltam no PHP pra conversar com MySQL (mysqli, pdo, pdo_mysql)
+    # e só depois liga o Apache - sem isso o container encerraria sozinho
+    environment: # dados de conexão com o banco, lidos direto pelo código PHP via getenv()
+      db_host: mysql # em vez de um IP, usamos o nome do serviço mysql - o Docker resolve isso sozinho
+      db_user: app # usuário do banco que o PHP vai usar pra logar
+      db_password: app # senha desse mesmo usuário
+      db_name: app # banco que a aplicação vai ler e escrever
+    networks: # entra na rede "rede" (declarada lá embaixo) - todo container tem que estar nela pra se enxergar
+      - rede
+
+  mysql: # container do banco de dados, o "db" da aplicação
+    image: mysql:8.4 # imagem oficial do MySQL na versão 8.4
+    container_name: mysql # nome fixo, usado inclusive como referência em db_host e PMA_HOST
+    restart: unless-stopped # ação ao ter qualquer erro
+    environment: # essas variáveis são lidas pela própria imagem na primeira vez que o container sobe
+      MYSQL_ROOT_PASSWORD: root # senha do usuário root, o administrador do banco
+      MYSQL_DATABASE: app # banco "app" já vem criado automaticamente
+      MYSQL_USER: app # e esse usuário comum também, pronto pra aplicação usar
+      MYSQL_PASSWORD: app # senha desse usuário comum
+    ports:
+      - "3306:3306" # abre a porta padrão do MySQL pro host, dá pra conectar por fora com DBeaver/Workbench
+    volumes:
+      - mysql_data:/var/lib/mysql # aqui é onde o MySQL guarda os dados de verdade - fica fora do container
+    networks:
+      - rede
+
+  phpmyadmin: # ferramenta visual pra ver e mexer no banco sem digitar SQL na mão
+    image: phpmyadmin:latest # imagem oficial do phpMyAdmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80" # acessível em localhost:8081, separado da porta 8080 do app
+    environment:
+      PMA_HOST: mysql # avisa o phpMyAdmin que o banco está no serviço "mysql"
+      PMA_PORT: 3306 # e que a porta de conexão é a padrão do MySQL
+    depends_on:
+      - mysql
+    networks:
+      - rede
+
+volumes: # onde os volumes nomeados usados acima são declarados de fato
+  mysql_data: # criado e gerenciado pelo próprio Docker, sobrevive a um docker compose down
+
+networks: # onde as redes personalizadas usadas acima são criadas de fato
+  rede: # nome escolhido pra rede - podia ser qualquer outro
+    driver: bridge # tipo de rede mais comum pra containers na mesma máquina se comunicarem
