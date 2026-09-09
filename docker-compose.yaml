@@ -14,16 +14,16 @@ services: # aqui começam os containers que formam a aplicação
     # instala as extensões que faltam no PHP pra conversar com MySQL (mysqli, pdo, pdo_mysql)
     # e só depois liga o Apache - sem isso o container encerraria sozinho
     environment: # dados de conexão com o banco, lidos direto pelo código PHP via getenv()
-      db_host: mysql # em vez de um IP, usamos o nome do serviço mysql - o Docker resolve isso sozinho
-      db_user: app # usuário do banco que o PHP vai usar pra logar
-      db_password: app # senha desse mesmo usuário
-      db_name: app # banco que a aplicação vai ler e escrever
+      DB_HOST: mysql # em vez de um IP, usamos o nome do serviço mysql - o Docker resolve isso sozinho
+      DB_USER: app # usuário do banco que o PHP vai usar pra logar
+      DB_PASSWORD: app # senha desse mesmo usuário
+      DB_NAME: app # banco que a aplicação vai ler e escrever
     networks: # entra na rede "rede" (declarada lá embaixo) - todo container tem que estar nela pra se enxergar
       - rede
 
   mysql: # container do banco de dados, o "db" da aplicação
     image: mysql:8.4 # imagem oficial do MySQL na versão 8.4
-    container_name: mysql # nome fixo, usado inclusive como referência em db_host e PMA_HOST
+    container_name: mysql # nome fixo, usado inclusive como referência em DB_HOST e PMA_HOST
     restart: unless-stopped # ação ao ter qualquer erro
     environment: # essas variáveis são lidas pela própria imagem na primeira vez que o container sobe
       MYSQL_ROOT_PASSWORD: root # senha do usuário root, o administrador do banco

@@ -3,11 +3,11 @@
 Prazo: 10/09. Atualizar este arquivo conforme formos avançando.
 
 ## 1. CRUD funcional (PHP + banco)
-- [ ] Entidade escolhida (mínimo 3 campos além do id)
-- [ ] Página de listagem
-- [ ] Formulário de cadastro (POST)
-- [ ] Formulário de edição (pré-carregado)
-- [ ] Exclusão de registros
+- [x] Entidade escolhida (`jogos`: nome, genero, ano_lancamento — 3 campos além do id)
+- [x] Página de listagem (`index.php`)
+- [x] Formulário de cadastro (POST) (`criar.php`)
+- [x] Formulário de edição (pré-carregado) (`editar.php`)
+- [x] Exclusão de registros (`excluir.php`)
 
 ## 2. Infraestrutura (docker-compose.yaml)
 - [x] Pelo menos 2 serviços (app = `php`, db = `mysql`)
@@ -15,13 +15,13 @@ Prazo: 10/09. Atualizar este arquivo conforme formos avançando.
 - [x] Mapeamento de porta para acessar a aplicação (8080:80)
 - [x] Volume persistente para o banco (`mysql_data`)
 - [x] Rede bridge personalizada (`networks: rede`, driver bridge, os 3 serviços conectados)
-- [ ] Padronizar caixa das variáveis de ambiente (mysql usa MAIÚSCULO, php usa minúsculo) — decidir um padrão
+- [x] Padronizar caixa das variáveis de ambiente (todas em MAIÚSCULO: `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` no `php`)
 
 ## 3. Comentários no docker-compose.yaml (item 3.3 do PDF)
 - [x] Comentários em português explicando as diretivas (conceitos repetidos, como `networks: - rede`, `restart` e `depends_on` nos serviços seguintes, são explicados uma vez só, sem repetir a mesma frase)
 
 ## 4. Versionamento (GitHub)
-- [ ] Repositório público criado
+- [x] Repositório público criado
 - [ ] Commits frequentes com mensagens claras (`feat:`, `fix:`)
 - [ ] Branch principal `main` com versão final funcionando
 
@@ -35,7 +35,7 @@ Prazo: 10/09. Atualizar este arquivo conforme formos avançando.
 
 ## 6. Restrições
 - [x] Sem `.env`
-- [x] Sem healthcheck / script de inicialização automática
+- [x] Sem healthcheck / script de inicialização automática (tabela `jogos` é criada manualmente via phpMyAdmin, ver `CRIAR_TABELA.md`)
 - [ ] Testado numa máquina limpa (sem PHP/banco instalados localmente)
 
 ## 7. Entrega
