@@ -22,20 +22,20 @@ Prazo: 10/09. Atualizar este arquivo conforme formos avançando.
 
 ## 4. Versionamento (GitHub)
 - [x] Repositório público criado
-- [ ] Commits frequentes com mensagens claras (`feat:`, `fix:`)
-- [ ] Branch principal `main` com versão final funcionando
+- [x] Commits frequentes com mensagens claras (`feat:`, "readme completo", merge de PR)
+- [x] Branch principal `main` com versão final funcionando
 
 ## 5. README.md
-- [ ] Título e descrição do projeto
-- [ ] Pré-requisitos (Docker/Docker Compose)
-- [ ] Passo a passo (clonar, `docker-compose up -d`, como a tabela é criada, acessar `localhost:8080`)
-- [ ] Explicação detalhada do docker-compose.yaml (serviços, variáveis, rede)
-- [ ] Mínimo 3 pontos interessantes/aprendizados da dupla
-- [ ] Autores (nomes completos)
+- [x] Título e descrição do projeto
+- [x] Pré-requisitos (Docker/Docker Compose)
+- [x] Passo a passo (clonar, `docker compose up -d`, como a tabela é criada, acessar `localhost:8080`)
+- [x] Explicação detalhada do docker-compose.yaml (serviços, variáveis, rede)
+- [x] Mínimo 3 pontos interessantes/aprendizados da dupla
+- [x] Autores (nomes completos)
 
 ## 6. Restrições
 - [x] Sem `.env`
-- [x] Sem healthcheck / script de inicialização automática (tabela `jogos` é criada manualmente via phpMyAdmin, ver `CRIAR_TABELA.md`)
+- [x] Sem healthcheck / script de inicialização automática do Docker (tabela `jogos` é criada por código PHP em `db.php` com `CREATE TABLE IF NOT EXISTS`, opção explicitamente permitida no PDF)
 - [ ] Testado numa máquina limpa (sem PHP/banco instalados localmente)
 
 ## 7. Entrega

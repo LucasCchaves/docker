@@ -22,18 +22,7 @@ Todo o ambiente é orquestrado com Docker Compose, com três serviços: aplicaç
    docker compose up -d
 ```
 
-3. Crie a tabela do banco de dados. Este projeto não usa script de inicialização automática, então a tabela precisa ser criada manualmente:
-   - Acesse o phpMyAdmin em `http://localhost:8081` (usuário `app`, senha `app`)
-   - Selecione o banco `app` no menu à esquerda
-   - Vá na aba **SQL** e execute:
-```sql
-     CREATE TABLE jogos (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         nome VARCHAR(100) NOT NULL,
-         genero VARCHAR(50) NOT NULL,
-         ano_lancamento INT NOT NULL
-     );
-```
+3. A tabela `jogos` é criada automaticamente: toda vez que uma página PHP conecta ao banco (`src/db.php`), é executado um `CREATE TABLE IF NOT EXISTS jogos (...)`. Não é um script de inicialização do Docker/MySQL (isso é proibido pelo trabalho) — é só código PHP dentro da própria aplicação, que roda como qualquer outra query. Não precisa criar nada manualmente.
 
 4. Acesse a aplicação em `http://localhost:8080`
 
