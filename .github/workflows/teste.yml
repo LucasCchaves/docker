@@ -1,0 +1,15 @@
+name: Teste do runner
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  teste:
+    runs-on: self-hosted
+    steps:
+      - name: Mostrar onde estou rodando
+        run: |
+          hostname
+          date -u
+          docker --version
